@@ -1,8 +1,8 @@
 import os
-import urllib.request
+import urllib
 import re
 import string
-from html.parser import HTMLParser
+from HTMLParser import HTMLParser
 from bs4 import BeautifulSoup
 
 """ os.system("start \"\" http://mirror.centos.org/centos/6/updates/x86_64/Packages/")
@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 </tr>
 """
 link = "http://mirror.centos.org/centos/6/updates/x86_64/Packages/"
-f = urllib.request.urlopen(link)
+f = urllib.urlopen(link)
 myfile = f.read()
 print(type(myfile))
 
@@ -40,10 +40,10 @@ class countRepo(HTMLParser):
             return data
             
 parser = countRepo()
-parser.feed(str(myfile))
+parser.feed(myfile)
 max1 = 0
 sr = parser.handle_data(max1)
-print("Number of packages present : ", sr)
+print "Number of packages present : ", sr
 
 soup = BeautifulSoup(myfile)
 table_tag = soup.findAll('table')[2]
@@ -52,7 +52,7 @@ for row in table_tag.findAll('tr'):
     col = row.findAll('td')
     for c in col:
         st.append(c.get_text())
-print(type(st))
+print type(st)
 countofmb = 0.0
 countofkb = 0.0
 count = 0.0
@@ -67,8 +67,9 @@ for i in range(8,2240,5):
         countofkb += float(b[0])
 
 count = (countofmb * 1024) + countofkb
-print("combined size of packages : " , count , "KB")
-print("combined size of packages : " , count/1024 , "MB")
+print "combined size of packages : " , count , "KB"
+print "combined size of packages : " , count/1024 , "MB"
+
 
 
 
